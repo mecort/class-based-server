@@ -55,7 +55,7 @@ class HttpServer():
         Then you would return "/images/sample_1.png"
         """
 
-        return "TODO: COMPLETE THIS"  # TODO
+        return request.split().pop(1)
 
 
     @staticmethod
@@ -84,11 +84,11 @@ class HttpServer():
             # This function should return an appropriate mimetype event
             # for files that don't exist.
         """
-
         if path.endswith('/'):
             return b"text/plain"
         else:
-            return b"TODO: FINISH THE REST OF THESE CASES"  # TODO
+            mime = mimetypes.guess_type(path)[0]
+            return mime.encode('utf8')
 
     @staticmethod
     def get_content(path):
@@ -119,7 +119,7 @@ class HttpServer():
             get_content('/') -> images/, a_web_page.html, make_type.py,..."
             # Returns a directory listing of `webroot/`
 
-            get_content('/a_page_that_doesnt_exist.html') 
+            get_content('/a_page_that_doesnt_exist.html')
             # The file `webroot/a_page_that_doesnt_exist.html`) doesn't exist,
             # so this should raise a FileNotFoundError.
         """
@@ -155,11 +155,11 @@ class HttpServer():
 
                         if '\r\n\r\n' in request:
                             break
-                    
+
                     print("Request received:\n{}\n\n".format(request))
 
                     path = self.get_path(request)
-                    
+
                     try:
                         body = self.get_content(path)
                         mimetype = self.get_mimetype(path)
@@ -180,7 +180,7 @@ class HttpServer():
                 except:
                     traceback.print_exc()
                 finally:
-                    conn.close() 
+                    conn.close()
 
         except KeyboardInterrupt:
             sock.close()
@@ -193,7 +193,7 @@ if __name__ == '__main__':
     try:
         port = int(sys.argv[1])
     except IndexError:
-        port = 10000 
+        port = 10000
 
     server = HttpServer(port)
     server.serve()
