@@ -8,10 +8,10 @@ class HttpServer():
 
     @staticmethod
     def make_response(
-        code,
-        reason,
-        body=b"",
-        mimetype=b"text/plain"
+            code,
+            reason,
+            body=b"",
+            mimetype=b"text/plain"
     ):
         """
         returns a basic HTTP response
@@ -57,7 +57,6 @@ class HttpServer():
 
         return request.split().pop(1)
 
-
     @staticmethod
     def get_mimetype(path):
         """
@@ -86,9 +85,9 @@ class HttpServer():
         """
         if path.endswith('/'):
             return b"text/plain"
-        else:
-            mime = mimetypes.guess_type(path)[0]
-            return mime.encode('utf8')
+
+        mime = mimetypes.guess_type(path)[0]
+        return mime.encode('utf8')
 
     @staticmethod
     def get_content(path):
@@ -130,7 +129,7 @@ class HttpServer():
 
             if os.path.isdir(web_path):
                 dir_list = os.listdir(web_path)
-                content = '\n\r'.join(dir_list)
+                content = '\n'.join(dir_list)
                 return content.encode('utf8')
 
             if os.path.isfile(web_path):
@@ -140,7 +139,6 @@ class HttpServer():
 
         except FileNotFoundError:
             raise FileNotFoundError
-
 
     def __init__(self, port):
         self.port = port
@@ -213,4 +211,3 @@ if __name__ == '__main__':
 
     server = HttpServer(port)
     server.serve()
-
