@@ -123,22 +123,19 @@ class HttpServer():
             # so this should raise a FileNotFoundError.
         """
         web_path = os.path.join(os.getcwd(), "webroot", path[1:])
-        try:
-            if not os.path.exists(web_path):
-                raise FileNotFoundError
-
-            if os.path.isdir(web_path):
-                dir_list = os.listdir(web_path)
-                content = '\n'.join(dir_list)
-                return content.encode('utf8')
-
-            if os.path.isfile(web_path):
-                with open(web_path, 'rb') as byteread:
-                    content = byteread.read()
-                return content
-
-        except FileNotFoundError:
+        
+        if not os.path.exists(web_path):
             raise FileNotFoundError
+
+        if os.path.isdir(web_path):
+            dir_list = os.listdir(web_path)
+            content = '\n'.join(dir_list)
+            return content.encode('utf8')
+
+        if os.path.isfile(web_path):
+            with open(web_path, 'rb') as byteread:
+                content = byteread.read()
+            return content
 
     def __init__(self, port):
         self.port = port
